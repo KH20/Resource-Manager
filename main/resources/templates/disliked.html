@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.5.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="css/mdl/material.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Bookmark Manager - Disliked</title>
+
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+    <p class="noBookmarks" th:text="${dislikedBookmarks.isEmpty() ? 'No Bookmarks Disliked' : ''}"></p>
+    <main class="mdl-layout__content">
+        <div class="container" th:if="${!dislikedBookmarks.isEmpty()}">
+            <div class="page-heading">Disliked Bookmarks</div>
+            <div th:each="bookmark:${dislikedBookmarks}" id="bookmarks">
+            <article itemscope itemtype="https://schema.org/SocialMediaPosting" th:data-bookmarktitle="${bookmark.getTitle()}" class="mdl-grid mdl-grid--no-spacing mdl-color-text--black spacer">
+                <header class="mdl-card__media mdl-cell mdl-cell--1-col-desktop mdl-cell--2-col-tablet
+                      mdl-cell--4-col-phone shadow mdl-cell--3-offset-desktop">
+                    <a th:href="${bookmark.getUrl()}"><img itemprop="image" th:src="${bookmark.getImg()}" alt="SE" /></a>
+                </header>
+                <div class="mdl-card mdl-cell mdl-cell--5-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone mdl-color--grey-300 shadow mid-card">
+                    <div class="mdl-card__title mdl-color-text--black">
+                        <a itemprop="url" th:href="${bookmark.getUrl()}"><h2 itemprop="headline" class="mdl-card__title-text card-title" th:text="${bookmark.getTitle()}"></h2></a>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-color-text--black">
+                        <p itemprop="description" th:text="${bookmark.getDescription()}"></p>
+                        <div class="mdl-card__menu">
+                            <div class="share" th:id="sharediv + ${bookmark.getId()}" th:attr="data-bookmark = ${bookmark.toJSON()}">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="share1">
+                                    <i class="material-icons">share</i>
+                                </button>
+                            </div>
+                            <div class="mdl-tooltip" th:data-mdl-for="sharediv + ${bookmark.getId()}">
+                                Copy URL to Clipboard
+                            </div>
+                            <div th:id="delete + ${bookmark.getId()}" class="delete">
+                                <a th:href="@{/undislike(id=${bookmark.getId()})}" class="mdl-button mdl-js-button mdl-button--icon">
+                                    <i class="material-icons">close</i>
+                                </a>
+                            </div>
+                            <div class="mdl-tooltip" th:data-mdl-for="delete + ${bookmark.getId()}">
+                                Remove Bookmark
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col-desktop"></div>
+            </article>
+            </div>
+        </div>
+    </main>
+    <div th:replace="fragments/footer :: footer"></div>
+<script src="js/likeddislikedfavourited.js"></script>
+<script src="css/mdl/material.js"></script>
+<script defer src="js/headerFooter.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</body>
+</html>

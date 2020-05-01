@@ -1,0 +1,59 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" >
+    <div th:fragment="header" itemscope itemtype="http://schema.org/SiteNavigationElement/WPHeader" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header" id="header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title mdl-cell--hide-phone" itemprop="about"><a href="/">Bookmark Manager</a></span>
+                <span class="mdl-layout-title mdl-cell--hide-desktop mdl-cell--hide-tablet"><a href="/">BM</a></span>
+                <div class="mdl-layout-spacer"></div>
+                <div class="header-right">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                        <label class="mdl-button mdl-js-button mdl-button--icon" for="search" id="searchfield">
+                            <i class="material-icons">search</i>
+                        </label>
+                        <div class="mdl-tooltip" data-mdl-for="searchfield">
+                            Search
+                        </div>
+                        <div class="mdl-textfield__expandable-holder">
+                            <input class="mdl-textfield__input" type="text" id="search" onkeyup="searchbookmarks()">
+                        </div>
+                    </div>
+                </div>
+                <div class="high-contrast" id="contrast">
+                    <i class="material-icons-outlined" id="contrast-eye" itemprop="accessibilityFeature" content="highContrastDisplay">remove_red_eye</i>
+                </div>
+                <div class="mdl-tooltip" data-mdl-for="contrast">
+                    Toggle Contrast
+                </div>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Panel</span>
+            <nav class="mdl-navigation">
+                <a itemprop="url" class="mdl-navigation__link" href="/login" th:if="${session.SESSION_USERNAME == null}">Log In</a>
+                <a itemprop="url" class="mdl-navigation__link" href="/register" th:if="${session.SESSION_USERNAME == null}">Register</a>
+                <a itemprop="url" class="mdl-navigation__link" href="/logout" th:if="${session.SESSION_USERNAME != null}">Logout</a>
+                <a itemprop="url" class="mdl-navigation__link" href="/postedBookmarks">Posted</a>
+                <a itemprop="url" class="mdl-navigation__link" href="/favourites">Favourites</a>
+                <a itemprop="url" class="mdl-navigation__link" href="/liked">Liked</a>
+                <a itemprop="url" class="mdl-navigation__link" href="/disliked">Disliked</a>
+            </nav>
+        </div>
+        <header class="mdl-layout__header-subheader" id="subheader">
+            <div class="mdl-layout__header-row">
+                <!-- Subtitle -->
+                <span class="mdl-layout-title mdl-cell--hide-phone" itemprop="about">Software Engineering</span>
+                <span class="mdl-layout-title mdl-cell--hide-desktop mdl-cell--hide-tablet">Software Eng</span>
+                <div class="mdl-layout-spacer"></div>
+                <div id="add">
+                    <a href="/addResource" id="addResource" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect add">
+                            <i class="material-icons">add</i>
+                    </a>
+                </div>
+                <div class="mdl-tooltip" data-mdl-for="add">
+                    Add Resource
+                </div>
+            </div>
+        </header>
+    </div>
+</div>

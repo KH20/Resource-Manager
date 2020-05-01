@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.5.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="css/mdl/material.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <title>Bookmark Manager</title>
+  </head>
+  <body>
+      <div th:replace="fragments/header :: header"></div>
+      <p class="noBookmarks" th:text="${bookmarks2.isEmpty() ? 'No Bookmarks Posted!' : ''}"></p>
+      <main class="mdl-layout__content">
+          <div class="container" th:if="${!bookmarks2.isEmpty()}">
+              <div class="page-heading">All Bookmarks</div>
+              <div class="content-wrapper">
+                  <div th:each="bookmark2:${bookmarks2}">
+                    <article itemscope itemtype="https://schema.org/SocialMediaPosting" th:data-bookmarktitle="${bookmark2.getTitle()}"  class="mdl-grid mdl-grid--no-spacing mdl-color-text--black spacer">
+                        <div class="mdl-card__media mdl-cell mdl-cell--3-offset-desktop mdl-cell--1-col-desktop mdl-cell--2-col-tablet
+                                mdl-cell--4-col-phone shadow">
+                            <a th:href="${bookmark2.getUrl()}"><img itemprop="image" th:src="${bookmark2.getImg()}" alt="SE" /></a>
+                        </div>
+                        <div class="mdl-card mdl-cell mdl-cell--4-col-desktop mdl-cell--5-col-tablet mdl-cell--3-col-phone mdl-color--grey-300 shadow mid-card">
+                            <div class="mdl-card__title mdl-color-text--black">
+                                <a itemprop="url" th:href="${bookmark2.getUrl()}"><h2 itemprop="headline" class="mdl-card__title-text card-title" th:text="${bookmark2.getTitle()}"></h2></a>
+                            </div>
+                            <div class="mdl-card__supporting-text mdl-color-text--black">
+                                <p itemprop="description" th:text="${bookmark2.getDescription()}"></p>
+                                <div class="mdl-card__menu">
+                                    <div class="share" th:id="sharediv + ${bookmark2.getId()}" th:attr="data-bookmark = ${bookmark2.toJSON()}">
+                                        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                            <i class="material-icons">share</i>
+                                        </button>
+                                    </div>
+                                    <div class="mdl-tooltip" th:data-mdl-for="sharediv + ${bookmark2.getId()}">
+                                        Copy URL to Clipboard
+                                    </div>
+                                    <div class="favourite">
+                                        <a th:href="@{/favourite(id=${bookmark2.getId()})}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect favourite1" th:attr="data-bookmark = ${bookmark2.toJSON()}">
+                                            <span th:class="${bookmark2.isFavourited() ? 'mdi mdi-heart favourite-clicked' : 'mdi mdi-heart-outline'}"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="votes mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone mdl-cell--1-col-tablet mdl-color--grey-300 shadow">
+                            <div class="upvote">
+                                <a th:href="@{/upvote(id=${bookmark2.getId()})}" class="mdl-button mdl-js-button mdl-button--icon upvote1" th:attr="data-bookmark = ${bookmark2.toJSON()}" th:id="upvote + ${bookmark2.getId()}" th:classappend="${bookmark2.isLiked() ? 'upvote-clicked' : 'color:none'}">
+                                    <i class="material-icons">
+                                        thumb_up
+                                    </i>
+                                </a>
+                            </div>
+                            <div itemprop="contentRating" class="voteNumber" th:id="voteNumber1_ + ${bookmark2.getId()}" th:text="${bookmark2.getLikes()}"></div>
+                            <div class="downvote">
+                                <a th:href="@{/downvote(id=${bookmark2.getId()})}" class="mdl-button mdl-js-button mdl-button--icon downvote1" th:attr="data-bookmark = ${bookmark2.toJSON()}" th:id="downvote + ${bookmark2.getId()}" th:classappend="${bookmark2.isDisliked() ? 'downvote-clicked' : 'color:none'}">
+                                    <i class="material-icons">
+                                        thumb_down
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mdl-cell mdl-cell--3-col-desktop"></div>
+                    </article>
+                  </div>
+              </div>
+          </div>
+      </main>
+      <div th:replace="fragments/footer :: footer"></div>
+      <script src="css/mdl/material.js"></script>
+      <script src="js/likeddislikedfavourited.js"></script>
+      <script defer src="js/headerFooter.js"></script>
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  </body>
+</html>
